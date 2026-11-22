@@ -1,0 +1,19 @@
+# Java
+backend/target/
+*.class
+
+# Node / Vite
+node_modules/
+frontend/dist/
+*.log
+npm-debug.log*
+
+# IDEs e sistema
+.vscode/
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+.DS_Store
+Thumbs.db

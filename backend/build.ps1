@@ -3,7 +3,8 @@
 #       .\build.ps1 -Run     -> idem e já sobe o servidor
 param([switch]$Run)
 $ErrorActionPreference = 'Stop'
-Set-Location $PSScriptRoot
+Push-Location $PSScriptRoot
+try {
 
 if (Test-Path target) { Remove-Item -Recurse -Force target }
 
@@ -22,3 +23,7 @@ jar --create --file target/stonkscalc.jar --main-class com.stonkscalc.Main -C ta
 Write-Host "`nJar gerado em backend\target\stonkscalc.jar"
 
 if ($Run) { java -jar target/stonkscalc.jar }
+
+} finally {
+    Pop-Location  # devolve o terminal para a pasta onde ele estava
+}

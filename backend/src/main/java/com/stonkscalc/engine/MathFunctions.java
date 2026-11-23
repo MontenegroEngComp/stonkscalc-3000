@@ -1,7 +1,6 @@
 package com.stonkscalc.engine;
 
 import java.util.Arrays;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Implementação das funções "comuns" (não preguiçosas). Erros de domínio retornam NaN,
@@ -217,7 +216,7 @@ public final class MathFunctions {
         long lo = (long) Math.ceil(Math.min(a, b));
         long hi = (long) Math.floor(Math.max(a, b));
         if (lo > hi) return Double.NaN;
-        return ThreadLocalRandom.current().nextLong(lo, hi + 1);
+        return lo + (long) Math.floor(Math.random() * (hi - lo + 1));
     }
 
     private static double median(double[] v) {

@@ -26,6 +26,22 @@ public final class CalcService {
     private CalcService() {
     }
 
+    /**
+     * Roteia uma requisição para o endpoint certo. Usado tanto pelo servidor HTTP quanto
+     * pela versão web (motor compilado para JavaScript). Retorna null se a rota não existir.
+     */
+    public static Map<String, Object> route(String path, Map<String, Object> body) {
+        return switch (path) {
+            case "/api/health" -> health();
+            case "/api/functions" -> functions();
+            case "/api/evaluate" -> evaluate(body);
+            case "/api/derivative" -> derivative(body);
+            case "/api/plot" -> plot(body);
+            case "/api/roots" -> roots(body);
+            default -> null;
+        };
+    }
+
     public static Map<String, Object> health() {
         return ok(Map.of("status", "stonks 📈"));
     }

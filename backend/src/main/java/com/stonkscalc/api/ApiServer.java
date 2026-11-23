@@ -59,15 +59,7 @@ public final class ApiServer {
             }
             String path = ex.getRequestURI().getPath();
             Map<String, Object> body = method.equals("POST") ? readBody(ex) : Map.of();
-            Map<String, Object> resp = switch (path) {
-                case "/api/health" -> CalcService.health();
-                case "/api/functions" -> CalcService.functions();
-                case "/api/evaluate" -> CalcService.evaluate(body);
-                case "/api/derivative" -> CalcService.derivative(body);
-                case "/api/plot" -> CalcService.plot(body);
-                case "/api/roots" -> CalcService.roots(body);
-                default -> null;
-            };
+            Map<String, Object> resp = CalcService.route(path, body);
             if (resp == null) {
                 sendJson(ex, 404, Map.of("ok", false, "error", "404: endpoint não encontrado (igual meu boleto pago)"));
             } else {

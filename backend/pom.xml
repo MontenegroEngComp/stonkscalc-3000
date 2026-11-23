@@ -36,4 +36,78 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <!--
+          Versão web (GitHub Pages): o TeaVM traduz o motor Java para JavaScript.
+          Uso:  mvn -P web package
+          Gera:  ../frontend/public/engine/stonkscalc.js
+        -->
+        <profile>
+            <id>web</id>
+            <properties>
+                <teavm.version>0.16.0</teavm.version>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.teavm</groupId>
+                    <artifactId>teavm-classlib</artifactId>
+                    <version>${teavm.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.teavm</groupId>
+                    <artifactId>teavm-jso</artifactId>
+                    <version>${teavm.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <version>3.6.0</version>
+                        <executions>
+                            <execution>
+                                <id>add-web-source</id>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>add-source</goal>
+                                </goals>
+                                <configuration>
+                                    <sources>
+                                        <source>src/web/java</source>
+                                    </sources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.teavm</groupId>
+                        <artifactId>teavm-maven-plugin</artifactId>
+                        <version>${teavm.version}</version>
+                        <executions>
+                            <execution>
+                                <id>web-engine</id>
+                                <phase>process-classes</phase>
+                                <goals>
+                                    <goal>compile</goal>
+                                </goals>
+                                <configuration>
+                                    <mainClass>com.stonkscalc.web.WebMain</mainClass>
+                                    <targetDirectory>${project.basedir}/../frontend/public/engine</targetDirectory>
+                                    <targetFileName>stonkscalc.js</targetFileName>
+                                    <minifying>true</minifying>
+                                    <optimizationLevel>ADVANCED</optimizationLevel>
+                                    <debugInformationGenerated>false</debugInformationGenerated>
+                                    <sourceMapsGenerated>false</sourceMapsGenerated>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

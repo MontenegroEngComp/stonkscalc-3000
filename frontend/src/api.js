@@ -45,6 +45,10 @@ function browserRequest(path, body) {
   });
 }
 
+// No GitHub Pages, começa a baixar e iniciar o motor assim que a página abre,
+// para que a primeira conta não precise esperar o download.
+if (FORCE_BROWSER) browserRequest('/api/health').catch(() => {});
+
 // ---------------------------------------------------------------- servidor
 async function serverRequest(path, body) {
   const res = await fetch(API_URL + path, {

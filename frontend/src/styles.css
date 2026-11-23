@@ -1135,6 +1135,12 @@ h3 {
     position: static;
     max-height: none;
   }
+  .graph-card {
+    order: -1; /* no celular, o gráfico vem antes da lista de funções */
+  }
+  .canvas-wrap {
+    height: 56vh;
+  }
 }
 
 @media (max-width: 680px) {

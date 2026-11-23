@@ -28,6 +28,14 @@ export default function App() {
   }, [theme]);
   useEffect(() => saveJSON('angleMode', angleMode), [angleMode]);
   useEffect(() => window.history.replaceState(null, '', `#${tab}`), [tab]);
+  useEffect(() => {
+    const onHash = () => {
+      const t = TABS.find((x) => `#${x.id}` === window.location.hash);
+      if (t) setTab(t.id);
+    };
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, []);
 
   /** Envia uma expressão para o gráfico e muda de aba. */
   const plot = useCallback((expression, opts = {}) => {
